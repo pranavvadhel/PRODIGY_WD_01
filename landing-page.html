@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Website</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    #navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #333;
+      color: white;
+      z-index: 1000;
+      transition: all 0.4s ease;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 40px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .nav-menu li a {
+      color: white;
+      text-decoration: none;
+      padding: 8px 12px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-menu li a:hover,
+    .nav-menu li a.active {
+      background: white;
+      color: #333;
+      border-radius: 5px;
+    }
+
+    .hero {
+      height: 100vh;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                  url('https://source.unsplash.com/1600x900/?technology,code') no-repeat center center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      padding-top: 80px;
+    }
+
+    .hero-content h1 {
+      font-size: 3em;
+      margin-bottom: 10px;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .hero-content p {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      background-color: #fff;
+      color: #333;
+      padding: 12px 25px;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #333;
+      color: white;
+    }
+
+    .section {
+      padding: 80px 20px;
+      text-align: center;
+      color: white;
+      min-height: 100vh;
+    }
+
+    .about { background-color: #1de0b0; }
+    .services { background-color: #b646b9; }
+    .contact { background-color: #d45c37; }
+
+    .section-title {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <div class="nav-container">
+      <h2 class="logo">MyWeb</h2>
+      <ul class="nav-menu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>Welcome to MyWeb</h1>
+      <p>Clean. Responsive. Interactive.</p>
+    </div>
+  </section>
+
+  <section id="about" class="section about">
+    <h2 class="section-title">About Us</h2>
+    <p>We build websites that grow your business and brand.</p>
+  </section>
+
+  <section id="services" class="section services">
+    <h2 class="section-title">Services</h2>
+    <p>Web Development, SEO, Branding, UI/UX Design</p>
+  </section>
+
+  <section id="contact" class="section contact">
+    <h2 class="section-title">Contact</h2>
+    <p>Ready to collaborate? Reach out to us today.</p>
+  </section>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    const navLinks = document.querySelectorAll('.nav-menu li a');
+    const sections = document.querySelectorAll('section');
+
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const bgColor = window.getComputedStyle(entry.target).backgroundColor;
+          navbar.style.backgroundColor = bgColor;
+
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').substring(1) === entry.target.id) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }, { threshold: 0.5 });
+
+    sections.forEach(section => observer.observe(section));
+  </script>
+</body>
+</html>
